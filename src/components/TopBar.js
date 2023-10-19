@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { TaskContext } from '../TaskContext';
 
 function TopBar() {
-  const [tasks, setTasks, filterCategory, setFilterCategory] = useContext(TaskContext);
+  const [tasks, setTasks] = useContext(TaskContext);
   const [taskInput, setTaskInput] = useState('');
   const [selectedCategory, setSelectedCategory] = useState("All");
   const categories = ["All", "Work", "School", "Home", "Personal", "Shopping"];
@@ -33,7 +33,9 @@ function TopBar() {
         onChange={e => setSelectedCategory(e.target.value)}
       >
         {categories.map(cat => (
-          <option key={cat} value={cat}>{cat}</option>
+          <option key={cat} value={cat} className={`category-${cat}`}>
+            {cat}
+          </option>
         ))}
       </select>
       <button onClick={addTask}>Add Task</button>

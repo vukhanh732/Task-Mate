@@ -13,4 +13,20 @@ function App() {
   );
 }
 
+function ColorGuide() {
+  const categories = ["Work", "School", "Home", "Personal", "Shopping"];
+  return (
+    <div className="color-guide">
+      <p>Category Colors:</p>
+      <ul>
+        {categories.map(cat => (
+          <li key={cat} className={`category-${cat}`}>
+            {cat}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default App;
