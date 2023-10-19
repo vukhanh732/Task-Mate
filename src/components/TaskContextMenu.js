@@ -1,17 +1,64 @@
-import React from 'react';
+import React, { useState, useContext, useRef } from 'react';
+import { TaskContext } from '../TaskContext';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import useOnClickOutside from '../hooks/useOnClickOutside';
 
-function TaskContextMenu({ task, position, hideMenu, deleteTask }) {
+function TaskContextMenu({ task, position, hideMenu, toggleImportant }) {
+  const [tasks, setTasks] = useContext(TaskContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(task.dueDate || new Date());
+  const [reminder, setReminder] = useState(task.reminder || "30mins");
+
+  const ref = useRef();
+  useOnClickOutside(ref, hideMenu);
+
+  const saveDueDate = () => {
+    setTasks(prevTasks => prevTasks.map(t => {
+      if (t.id === task.id) {
+        return { ...t, dueDate: selectedDate, reminder: reminder };
+      }
+      return t;
+    }));
+    setIsModalOpen(false);
+  };
+
   return (
     <div
+      ref={ref}
       className="context-menu"
       style={{ top: position.y, left: position.x }}
-      onClick={hideMenu}
     >
       <ul>
-        <li onClick={() => console.log('Set Due Date for', task.title)}>Set Due Date</li>
-        <li onClick={() => console.log('Mark as Important', task.title)}>Mark as Important</li>
-        <li onClick={() => deleteTask(task.id)}>Delete</li>
+        <li onClick={() => setIsModalOpen(true)}>Set Due Date</li>
+        <li onClick={toggleImportant}>
+          {task.important ? "Unmark as Important" : "Mark as Important"}
+        </li>
+        <li onClick={() => {
+          setTasks(tasks.filter(t => t.id !== task.id));
+          hideMenu();
+        }}>
+          Delete
+        </li>
       </ul>
+
+      {isModalOpen && (
+        <div className="date-modal">
+          <h2>Select Due Date</h2>
+          <DatePicker selected={selectedDate} onChange={date => setSelectedDate(date)} />
+          <div>
+            Reminder:
+            <select value={reminder} onChange={e => setReminder(e.target.value)}>
+              <option value="30mins">30 mins</option>
+              <option value="1hr">1 hr</option>
+              <option value="12hr">12 hr</option>
+              <option value="1day">1 day</option>
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+          <button onClick={saveDueDate}>Save</button>
+        </div>
+      )}
     </div>
   );
 }

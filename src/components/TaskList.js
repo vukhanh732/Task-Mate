@@ -9,11 +9,13 @@ function TaskList() {
   
   const [contextMenuTask, setContextMenuTask] = useState(null);
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+  const [toggleImportantFunction, setToggleImportantFunction] = useState(null);
 
-  const showContextMenu = (e, task) => {
+  const showContextMenu = (e, task, toggleImportant) => {
     e.preventDefault();
     setContextMenuTask(task);
     setContextMenuPosition({ x: e.pageX, y: e.pageY });
+    setToggleImportantFunction(toggleImportant);
   };
 
   const hideContextMenu = () => {
@@ -26,14 +28,16 @@ function TaskList() {
       {/* ... existing code ... */}
       {contextMenuTask && (
         <TaskContextMenu
-          task={contextMenuTask}
-          position={contextMenuPosition}
-          hideMenu={hideContextMenu}
-          deleteTask={taskId => {
-            setTasks(tasks.filter(task => task.id !== taskId));
-            hideContextMenu();
-          }}
+            task={contextMenuTask}
+            position={contextMenuPosition}
+            hideMenu={hideContextMenu}
+            deleteTask={taskId => {
+                setTasks(tasks.filter(task => task.id !== taskId));
+                hideContextMenu();
+            }}
+            toggleImportant={toggleImportantFunction}
         />
+    
       )}
       </div>
       <select 
