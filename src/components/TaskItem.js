@@ -26,27 +26,29 @@ function TaskItem({ task }) {
   };
 
   return (
-    <div className={`task-item ${task.completed ? 'completed' : ''}`}>
-      <input type="checkbox" checked={task.completed} onChange={toggleCompletion} />
-      
-      {
-        isEditing ? 
-        <input 
-          type="text" 
-          value={editedTitle} 
-          onChange={e => setEditedTitle(e.target.value)}
-          onBlur={saveEdit}
-          onKeyPress={event => {
-            if (event.key === "Enter") {
-              saveEdit();
-            }
-          }}
-        /> 
-        : 
-        <span onDoubleClick={() => setIsEditing(true)}>
-          {task.title}
-        </span>
-      }
+    <div className={`task-item category-${task.category}`}>
+        <div className={`task-item ${task.completed ? 'completed' : ''}`}>
+        <input type="checkbox" checked={task.completed} onChange={toggleCompletion} />
+        
+        {
+            isEditing ? 
+            <input 
+            type="text" 
+            value={editedTitle} 
+            onChange={e => setEditedTitle(e.target.value)}
+            onBlur={saveEdit}
+            onKeyPress={event => {
+                if (event.key === "Enter") {
+                saveEdit();
+                }
+            }}
+            /> 
+            : 
+            <span onDoubleClick={() => setIsEditing(true)}>
+            {task.title}
+            </span>
+        }
+        </div>
     </div>
   );
 }

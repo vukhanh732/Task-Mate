@@ -40,3 +40,87 @@
 .task-item.completed span {
   text-decoration: line-through;
 }
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f8;
+  color: #333;
+  padding: 20px;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.task-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.task-item.completed span {
+  text-decoration: line-through;
+  color: #888;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  width: 60%;
+  margin-right: 10px;
+}
+
+select {
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.category-Work {
+  color: #D32F2F; /* Red for Work */
+}
+
+.category-School {
+  color: #1976D2; /* Blue for School */
+}
+
+.category-Home {
+  color: #388E3C; /* Green for Home */
+}
+
+.category-Personal {
+  color: #8E24AA; /* Purple for Personal */
+}
+
+.category-Shopping {
+  color: #FBC02D; /* Yellow for Shopping */
+}

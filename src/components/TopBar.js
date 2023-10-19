@@ -2,18 +2,21 @@ import React, { useState, useContext } from 'react';
 import { TaskContext } from '../TaskContext';
 
 function TopBar() {
-  const [taskInput, setTaskInput] = useState("");
-  const [tasks, setTasks] = useContext(TaskContext);
+  const [tasks, setTasks, filterCategory, setFilterCategory] = useContext(TaskContext);
+  const [taskInput, setTaskInput] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const categories = ["All", "Work", "School", "Home", "Personal", "Shopping"];
 
   const addTask = () => {
     if (taskInput.trim()) {
       const newTask = {
         id: Date.now(),
         title: taskInput,
-        completed: false
+        completed: false,
+        category: selectedCategory
       };
-      setTasks(prevTasks => [...prevTasks, newTask]);
-      setTaskInput("");
+      setTasks([...tasks, newTask]);
+      setTaskInput('');
     }
   };
 
@@ -25,8 +28,15 @@ function TopBar() {
         value={taskInput} 
         onChange={e => setTaskInput(e.target.value)} 
       />
+      <select 
+        value={selectedCategory} 
+        onChange={e => setSelectedCategory(e.target.value)}
+      >
+        {categories.map(cat => (
+          <option key={cat} value={cat}>{cat}</option>
+        ))}
+      </select>
       <button onClick={addTask}>Add Task</button>
-      {/* Future: Dropdown for categories and search functionality */}
     </div>
   );
 }
