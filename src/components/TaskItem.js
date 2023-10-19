@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { TaskContext } from '../TaskContext';
 
-function TaskItem({ task }) {
+function TaskItem({ task, showContextMenu }) {
   const [tasks, setTasks] = useContext(TaskContext);
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(task.title);
@@ -26,7 +26,10 @@ function TaskItem({ task }) {
   };
 
   return (
-    <div className={`task-item category-${task.category}`}>
+    <div 
+      className={`task-item category-${task.category}`} 
+      onContextMenu={e => showContextMenu(e, task)}
+    >
         <div className={`task-item ${task.completed ? 'completed' : ''}`}>
         <input type="checkbox" checked={task.completed} onChange={toggleCompletion} />
         
