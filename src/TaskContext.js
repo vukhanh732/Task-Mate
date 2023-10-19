@@ -1,10 +1,18 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 
 export const TaskContext = createContext();
 
 export const TaskProvider = props => {
-  const [tasks, setTasks] = useState([]);
-  const [filterCategory, setFilterCategory] = useState("All"); // New state
+  // Try to get tasks from localStorage first, fall back to an empty array
+  const initialTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+  const [tasks, setTasks] = useState(initialTasks);
+  const [filterCategory, setFilterCategory] = useState("All");
+
+  // Save tasks to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
   return (
     <TaskContext.Provider value={[tasks, setTasks, filterCategory, setFilterCategory]}>
