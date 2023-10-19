@@ -8,6 +8,7 @@ function App() {
     <div className="App">
       <TopBar />
       <TaskList />
+      {/* Future: Modals and other components */}
     </div>
   );
 }

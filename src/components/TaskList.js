@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { TaskContext } from '../TaskContext';
 import TaskItem from './TaskItem';
 
 function TaskList() {
+  const [tasks, setTasks] = useContext(TaskContext);
+
   return (
     <div className="task-list">
-      {/* Example Task Item */}
-      <TaskItem />
-      {/* You'll render multiple TaskItems based on data later */}
+      {tasks.map(task => (
+        <TaskItem key={task.id} task={task} />
+      ))}
     </div>
   );
 }

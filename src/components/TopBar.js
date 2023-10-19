@@ -1,21 +1,32 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { TaskContext } from '../TaskContext';
 
 function TopBar() {
+  const [taskInput, setTaskInput] = useState("");
+  const [tasks, setTasks] = useContext(TaskContext);
+
+  const addTask = () => {
+    if (taskInput.trim()) {
+      const newTask = {
+        id: Date.now(),
+        title: taskInput,
+        completed: false
+      };
+      setTasks(prevTasks => [...prevTasks, newTask]);
+      setTaskInput("");
+    }
+  };
+
   return (
     <div className="top-bar">
-      {/* Search Input */}
-      <input type="text" placeholder="Search tasks..." />
-
-      {/* Category Dropdown */}
-      <select>
-        <option value="all">All</option>
-        <option value="school">School</option>
-        <option value="work">Work</option>
-        <option value="home">Home</option>
-      </select>
-
-      {/* Add Task Button */}
-      <button>Add Task</button>
+      <input 
+        type="text" 
+        placeholder="New task..." 
+        value={taskInput} 
+        onChange={e => setTaskInput(e.target.value)} 
+      />
+      <button onClick={addTask}>Add Task</button>
+      {/* Future: Dropdown for categories and search functionality */}
     </div>
   );
 }
