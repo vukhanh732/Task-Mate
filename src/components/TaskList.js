@@ -4,7 +4,7 @@ import TaskItem from './TaskItem';
 import TaskContextMenu from './TaskContextMenu';
 
 function TaskList() {
-  const [tasks, setTasks, filterCategory, setFilterCategory] = useContext(TaskContext);
+  const [tasks, , filterCategory, setFilterCategory] = useContext(TaskContext);
   const categories = ["All", "Work", "School", "Home", "Personal", "Shopping"];
   
   const [contextMenuTask, setContextMenuTask] = useState(null);
@@ -15,7 +15,7 @@ function TaskList() {
     e.preventDefault();
     setContextMenuTask(task);
     setContextMenuPosition({ x: e.pageX, y: e.pageY });
-    setToggleImportantFunction(toggleImportant);
+    setToggleImportantFunction(() => toggleImportant);  // Here we set the toggleImportant function
   };
 
   const hideContextMenu = () => {
@@ -25,20 +25,14 @@ function TaskList() {
   return (
     <div>
       <div onContextMenu={hideContextMenu}>
-      {/* ... existing code ... */}
-      {contextMenuTask && (
-        <TaskContextMenu
+        {contextMenuTask && (
+          <TaskContextMenu
             task={contextMenuTask}
             position={contextMenuPosition}
             hideMenu={hideContextMenu}
-            deleteTask={taskId => {
-                setTasks(tasks.filter(task => task.id !== taskId));
-                hideContextMenu();
-            }}
             toggleImportant={toggleImportantFunction}
-        />
-    
-      )}
+          />
+        )}
       </div>
       <select 
         value={filterCategory} 

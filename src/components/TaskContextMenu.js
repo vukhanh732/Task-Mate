@@ -7,20 +7,30 @@ import useOnClickOutside from '../hooks/useOnClickOutside';
 function TaskContextMenu({ task, position, hideMenu, toggleImportant }) {
   const [tasks, setTasks] = useContext(TaskContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(task.dueDate || new Date());
-  const [reminder, setReminder] = useState(task.reminder || "30mins");
+  const [selectedDate, setSelectedDate] = useState(task.dueDate);
+  const [reminder, setReminder] = useState(task.reminder);
+  const [customReminder, setCustomReminder] = useState("");
 
-  const ref = useRef();
-  useOnClickOutside(ref, hideMenu);
+  const ref = useRef(); // <-- Define the ref here
+
+  useOnClickOutside(ref, () => {  // Use the ref with the custom hook
+    hideMenu();
+    setIsModalOpen(false);
+  });
 
   const saveDueDate = () => {
     setTasks(prevTasks => prevTasks.map(t => {
       if (t.id === task.id) {
-        return { ...t, dueDate: selectedDate, reminder: reminder };
+        return { 
+          ...t, 
+          dueDate: selectedDate, 
+          reminder: reminder === "custom" ? customReminder : reminder 
+        };
       }
       return t;
     }));
     setIsModalOpen(false);
+    hideMenu();
   };
 
   return (
@@ -55,6 +65,9 @@ function TaskContextMenu({ task, position, hideMenu, toggleImportant }) {
               <option value="1day">1 day</option>
               <option value="custom">Custom</option>
             </select>
+            {reminder === "custom" && 
+            <input type="number" placeholder="Minutes" onChange={e => setCustomReminder(e.target.value)} />
+}
           </div>
           <button onClick={saveDueDate}>Save</button>
         </div>

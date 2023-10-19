@@ -41,10 +41,20 @@ function TaskItem({ task, showContextMenu }) {
         }
     };
 
+    const toggleImportant = () => {
+        setTasks(tasks.map(t => {
+            if (t.id === task.id) {
+                return { ...t, important: !task.important };
+            }
+            return t;
+        }));
+    };
+
     return (
         <div
             className={`task-item category-${task.category}`}
-            onContextMenu={e => showContextMenu(e, task)}
+            onContextMenu={e => showContextMenu(e, task, toggleImportant)}
+
         >
             <div className={`task-item ${task.completed ? 'completed' : ''}`}>
                 <input type="checkbox" checked={task.completed} onChange={toggleCompletion} />
