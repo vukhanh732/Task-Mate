@@ -3,13 +3,23 @@ import { Link } from 'react-router-dom';
 import TaskList from './components/TaskList'; 
 
 function PomoTimer() {
+    
     const [minutes, setMinutes] = useState(25);
     const [seconds, setSeconds] = useState(0);
     const [isActive, setIsActive] = useState(false);
     const [pomoCount, setPomoCount] = useState(0);
     const [inputMinutes, setInputMinutes] = useState(25);
     const [inputSeconds, setInputSeconds] = useState(0);
-
+    
+    const totalSeconds = inputMinutes * 60 + inputSeconds;
+    const currentTimeInSeconds = minutes * 60 + seconds;
+    const fractionCompleted = currentTimeInSeconds / totalSeconds;
+    const radius = 70;
+    const circumference = 2 * Math.PI * radius;
+    const dashoffset = fractionCompleted * circumference;
+    
+    
+   
     const setTimer = () => {
         setMinutes(inputMinutes);
         setSeconds(inputSeconds);
@@ -61,35 +71,54 @@ function PomoTimer() {
         <div style={{ textAlign: 'center', padding: '20px' }}>
             <Link to="/">Back to Tasks</Link>
             <h2>Pomodoro Timer</h2>
-    
+
             <div>
                 Set Timer: 
                 <input type="number" value={inputMinutes} onChange={e => setInputMinutes(e.target.value)} min="0" /> minutes
                 <input type="number" value={inputSeconds} onChange={e => setInputSeconds(e.target.value)} min="0" max="59" /> seconds
                 <button onClick={setTimer}>Set</button>
             </div>
-    
-            <div style={{ 
-                fontSize: '2rem', 
-                margin: '20px auto', 
-                border: '2px solid #ff00f2', // Blue border color
-                backgroundColor: 'linear-gradient(to right, #36d1dc, #5b86e5)', // Gradient background color
-                color: 'black', // Text color
-                boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.2)', // Adds a slight shadow
-                padding: '10px', 
-                borderRadius: '50%', 
-                width: '150px', 
-                height: '150px', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center' 
-            }}>
-                {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+
+            {/* Updated Timer's Display */}
+            <div style={{ position: 'relative', height: '150px', width: '150px', margin: '20px auto' }}>
+                <svg width="150" height="150" viewBox="0 0 150 150">
+                    <circle 
+                        cx="75" 
+                        cy="75" 
+                        r="70"
+                        stroke="#E0E0E0"
+                        strokeWidth="5"
+                        fill="none"
+                    />
+                    <circle 
+                        cx="75" 
+                        cy="75" 
+                        r="70"
+                        stroke="#FF4500"
+                        strokeWidth="5"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeDasharray={circumference}
+                        strokeDashoffset={dashoffset}
+                        transform="rotate(-90 75 75)"
+                    />
+                </svg>
+                <div style={{ 
+                    position: 'absolute', 
+                    top: '50%', 
+                    left: '50%', 
+                    transform: 'translate(-50%, -50%)', 
+                    fontSize: '2rem' 
+                }}>
+                    {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+                </div>
             </div>
+
+
             <button onClick={() => setIsActive(!isActive)}>
                 {isActive ? 'Pause' : 'Start'}
             </button>
-    
+
             <hr style={{ margin: '40px 0' }}/>  {/* Horizontal line for separation */}
             
             <TaskList />

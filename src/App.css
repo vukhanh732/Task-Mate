@@ -233,4 +233,24 @@ button, .task-item {
   transition: all 0.3s ease;
 }
 
+.timer-circle {
+  width: 150px;
+  height: 150px;
+  transform: rotate(-90deg);
+}
+
+.timer-circle-bg {
+  stroke: #eee;
+  fill: none;
+  stroke-width: 10;
+}
+
+.timer-circle-fg {
+  fill: none;
+  stroke-width: 10;
+  stroke: #ff4500; /* You can change this color if you like */
+}
+
+
+
 
