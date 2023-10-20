@@ -18,11 +18,21 @@ function PomoTimer() {
     const circumference = 2 * Math.PI * radius;
     const dashoffset = fractionCompleted * circumference;
     
-    
+    const [breakMinutes, setBreakMinutes] = useState(5);
+    const [breakSeconds, setBreakSeconds] = useState(0);
+    const [mode, setMode] = useState('Pomodoro');
    
     const setTimer = () => {
+        setIsActive(false);  // Stop the timer
         setMinutes(inputMinutes);
         setSeconds(inputSeconds);
+    };
+
+    const setBreak = () => {
+        setIsActive(false);  // Stop the timer
+        setMinutes(breakMinutes);
+        setSeconds(breakSeconds);
+        setMode('Break');
     };
 
     const playBuzzSound = () => {
@@ -35,7 +45,7 @@ function PomoTimer() {
 
     useEffect(() => {
         let interval;
-    
+
         if (isActive && !(minutes === 0 && seconds === 0)) {
             interval = setInterval(() => {
                 if (seconds > 0) {
@@ -44,41 +54,90 @@ function PomoTimer() {
                     setMinutes(minutes - 1);
                     setSeconds(59);
                 } else {
-                    clearInterval(interval); // Ensure the interval is cleared if we reach this point.
+                    clearInterval(interval);
                     playBuzzSound();
-                    alert('Timer is done!');
-                    setIsActive(false);
-                    setPomoCount(prevCount => {
-                        const newCount = prevCount + 1;
-                        if (newCount % 4 === 0) {
-                            setMinutes(15); // Long break
-                        } else {
-                            setMinutes(5);  // Short break
-                        }
-                        return newCount;
-                    });
+                    if (mode !== 'Break') {
+                        alert('Work time is over! Break time starts now.');
+                        setMinutes(breakMinutes);
+                        setSeconds(breakSeconds);
+                        setMode('Break');
+                    } else {
+                        alert('Break time is over! Work time starts now.');
+                        setMinutes(inputMinutes);
+                        setSeconds(inputSeconds);
+                        setMode('Pomodoro');
+                    }
                 }
             }, 1000);
         } else {
             clearInterval(interval);
         }
-    
+
         return () => clearInterval(interval);
-    }, [isActive, minutes, seconds]);
-    
+    }, [isActive, minutes, seconds, mode, breakMinutes, breakSeconds, inputMinutes, inputSeconds]);
 
     return (
-        <div style={{ textAlign: 'center', padding: '20px' }}>
+        <div style={{ 
+            textAlign: 'center', 
+            padding: '20px',
+            backgroundColor: mode === 'Break' ? 'lightgreen' : '#f7f8fc',
+            fontFamily: 'Roboto, sans-serif'
+        }}>
             <Link to="/">Back to Tasks</Link>
-            <h2>Pomodoro Timer</h2>
+            <h2>{mode}</h2>
+            
+            <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '20px' }}>
+                <div>
+                    <p>Set Work Timer:</p>
+                    <input 
+                        type="number" 
+                        value={inputMinutes} 
+                        onChange={e => setInputMinutes(e.target.value)} 
+                        min="0"
+                        placeholder="Minutes..."
+                        style={{ fontFamily: 'Roboto, sans-serif', padding: '5px', border: '1px solid #ccc', borderRadius: '4px', marginRight: '5px' }}
+                    />
+                    <input 
+                        type="number" 
+                        value={inputSeconds} 
+                        onChange={e => setInputSeconds(e.target.value)} 
+                        min="0" 
+                        max="59"
+                        placeholder="Seconds..."
+                        style={{ fontFamily: 'Roboto, sans-serif', padding: '5px', border: '1px solid #ccc', borderRadius: '4px', marginRight: '5px' }}
+                    />
+                </div>
 
-            <div>
-                Set Timer: 
-                <input type="number" value={inputMinutes} onChange={e => setInputMinutes(e.target.value)} min="0" /> minutes
-                <input type="number" value={inputSeconds} onChange={e => setInputSeconds(e.target.value)} min="0" max="59" /> seconds
-                <button onClick={setTimer}>Set</button>
+                <div>
+                    <p>Set Break Timer:</p>
+                    <input 
+                        type="number" 
+                        value={breakMinutes} 
+                        onChange={e => setBreakMinutes(e.target.value)} 
+                        min="0"
+                        placeholder="Minutes..."
+                        style={{ fontFamily: 'Roboto, sans-serif', padding: '5px', border: '1px solid #ccc', borderRadius: '4px', marginRight: '5px' }}
+                    />
+                    <input 
+                        type="number" 
+                        value={breakSeconds} 
+                        onChange={e => setBreakSeconds(e.target.value)} 
+                        min="0" 
+                        max="59"
+                        placeholder="Seconds..."
+                        style={{ fontFamily: 'Roboto, sans-serif', padding: '5px', border: '1px solid #ccc', borderRadius: '4px', marginRight: '5px' }}
+                    />
+                </div>
             </div>
-
+            
+            <button 
+                onClick={setTimer}
+                style={{ fontFamily: 'Roboto, sans-serif', padding: '8px 16px', border: 'none', borderRadius: '4px', backgroundColor: '#007bff', color: 'white', cursor: 'pointer', transition: 'background-color 0.2s' }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
+            >
+                Set Timers
+            </button>
             {/* Updated Timer's Display */}
             <div style={{ position: 'relative', height: '150px', width: '150px', margin: '20px auto' }}>
                 <svg width="150" height="150" viewBox="0 0 150 150">
