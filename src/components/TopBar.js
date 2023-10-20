@@ -1,12 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { TaskContext } from '../TaskContext';
+import { useNavigate } from 'react-router-dom';
 
 function TopBar() {
   const [tasks, setTasks] = useContext(TaskContext);
   const [taskInput, setTaskInput] = useState('');
   const [selectedCategory, setSelectedCategory] = useState("All");
   const categories = ["All", "Work", "School", "Home", "Personal", "Shopping"];
-
+  const navigate = useNavigate();
+  
   const addTask = () => {
     if (taskInput.trim()) {
       const newTask = {
@@ -39,6 +41,7 @@ function TopBar() {
         ))}
       </select>
       <button onClick={addTask}>Add Task</button>
+      <button onClick={() => navigate('/pomo-timer')}>Pomo Timer</button>
     </div>
   );
 }

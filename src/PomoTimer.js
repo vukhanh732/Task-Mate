@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import TaskList from './components/TaskList'; 
 
 function PomoTimer() {
     const [minutes, setMinutes] = useState(25);
@@ -57,21 +58,24 @@ function PomoTimer() {
     
 
     return (
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', padding: '20px' }}>
             <Link to="/">Back to Tasks</Link>
             <h2>Pomodoro Timer</h2>
-
+    
             <div>
                 Set Timer: 
                 <input type="number" value={inputMinutes} onChange={e => setInputMinutes(e.target.value)} min="0" /> minutes
                 <input type="number" value={inputSeconds} onChange={e => setInputSeconds(e.target.value)} min="0" max="59" /> seconds
                 <button onClick={setTimer}>Set</button>
             </div>
-
+    
             <div style={{ 
                 fontSize: '2rem', 
                 margin: '20px auto', 
-                border: '2px solid black', 
+                border: '2px solid #ff00f2', // Blue border color
+                backgroundColor: 'linear-gradient(to right, #36d1dc, #5b86e5)', // Gradient background color
+                color: 'black', // Text color
+                boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.2)', // Adds a slight shadow
                 padding: '10px', 
                 borderRadius: '50%', 
                 width: '150px', 
@@ -85,8 +89,13 @@ function PomoTimer() {
             <button onClick={() => setIsActive(!isActive)}>
                 {isActive ? 'Pause' : 'Start'}
             </button>
+    
+            <hr style={{ margin: '40px 0' }}/>  {/* Horizontal line for separation */}
+            
+            <TaskList />
         </div>
     );
+    
 };
 
 export default PomoTimer;

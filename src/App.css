@@ -1,5 +1,12 @@
 .App {
   text-align: center;
+  max-width: 800px; /* Set a max width for the content */
+  margin: 0 auto;   /* Center the content horizontally */
+
+  background-color: rgba(255, 255, 255, 0.8); /* Slight white overlay */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .App-logo {
@@ -8,6 +15,9 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .App {
+    max-width: 1000px;
+  }
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
@@ -42,25 +52,58 @@
 }
 
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f4f8;
-  color: #333;
+  font-family: 'Roboto', sans-serif; /* Use Roboto as the primary font */
   padding: 20px;
+  margin: 0;
+  background-color: rgb(55, 58, 61);
+  /*background-image: url('todo-icon.png'); /* Adjusted filename */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-attachment: fixed;
 }
+
+
 
 .top-bar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0; /* Added border to separate the top bar */
+}
+.top-bar select {
+  margin-left: 10px;  /* Adjust this value as desired */
 }
 
-.task-list {
+input[type="text"] {
+  flex: 1; /* Make input take the full width of its container */
+  padding: 10px;
   border: 1px solid #e0e0e0;
-  border-radius: 5px;
+  border-radius: 8px;
+}
+
+.input-container {
+  display: flex;
+  gap: 10px; /* Adds space between elements */
+  align-items: center;
+}
+
+.input-container input[type="text"] {
+  flex-grow: 1;
+  min-width: 0; /* This ensures that the input respects its container's size and doesn't overflow */
+}
+
+
+.task-list {
+  border-radius: 8px;
   background-color: #fff;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.task-list, .context-menu {
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .task-item {
@@ -68,6 +111,11 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0; /* Separates each task */
+}
+
+.task-item:hover {
+  background-color: #f8f8f8;
 }
 
 .task-item.completed span {
@@ -86,7 +134,7 @@ input[type="text"] {
 select {
   padding: 10px;
   border: 1px solid #e0e0e0;
-  border-radius: 5px;
+  border-radius: 8px;
   background-color: #fff;
   cursor: pointer;
 }
@@ -129,6 +177,7 @@ button:hover {
   position: absolute;
   z-index: 1000;
   width: 200px;
+  border-radius: 8px;
   border: 1px solid #ccc;
   background-color: #fff;
   box-shadow: 0 2px 10px rgba(0,0,0,0.2);
@@ -136,8 +185,9 @@ button:hover {
 
 .context-menu ul {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 8px 12px;
+  cursor: pointer;
 }
 
 .context-menu li {
@@ -162,3 +212,25 @@ button:hover {
 .due-date.due-soon {
   color: orange;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+button, .task-item {
+  transition: all 0.3s ease;
+}
+
+
