@@ -251,6 +251,19 @@ button, .task-item {
   stroke: #ff4500; /* You can change this color if you like */
 }
 
+.header {
+  display: flex;
+  align-items: center;  /* vertically align logo and title */
+  justify-content: center;  /* align to the left; change to 'center' for center alignment */
+  padding: 10px 0;  /* some vertical padding */
+}
+
+.header-logo {
+  width: 200px;  /* or whatever width looks good */
+  height: auto;  /* maintain aspect ratio */
+  margin-right: 10px;  /* space between logo and title */
+}
+
 
 
 
