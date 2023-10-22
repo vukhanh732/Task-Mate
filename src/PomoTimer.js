@@ -7,7 +7,6 @@ function PomoTimer() {
     const [minutes, setMinutes] = useState(25);
     const [seconds, setSeconds] = useState(0);
     const [isActive, setIsActive] = useState(false);
-    const [pomoCount, setPomoCount] = useState(0);
     const [inputMinutes, setInputMinutes] = useState(25);
     const [inputSeconds, setInputSeconds] = useState(0);
     
@@ -26,13 +25,6 @@ function PomoTimer() {
         setIsActive(false);  // Stop the timer
         setMinutes(inputMinutes);
         setSeconds(inputSeconds);
-    };
-
-    const setBreak = () => {
-        setIsActive(false);  // Stop the timer
-        setMinutes(breakMinutes);
-        setSeconds(breakSeconds);
-        setMode('Break');
     };
 
     const playBuzzSound = () => {
