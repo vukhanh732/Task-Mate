@@ -2,7 +2,7 @@
 # Task Mate
 
 **Task Mate** is a web application designed to manage tasks efficiently and productively. It offers a combination of a task list and a Pomodoro timer, ensuring that users not only track their tasks but also work on them with focus.
-
+https://taskmateee.netlify.app/
 ## Features
 
 1. **Task List**:
