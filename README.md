@@ -22,7 +22,7 @@ https://taskmateee.netlify.app/
 
 1. Clone the repository:
    ```bash
-   git clone [Your Repository Link]
+   git clone https://github.com/vukhanh732/Task-Mate.git
    ```
 
 2. Navigate to the project directory:
